@@ -1,0 +1,228 @@
+{
+    "openapi": "3.0.2",
+    "info": {
+        "title": "Music Player - API",
+        "description": "This is the API for the music player application.",
+        "version": "1.0.0"
+    },
+    "externalDocs": {
+        "description": "Find out more about Swagger",
+        "url": "http://swagger.io"
+    },
+    "tags": [],
+    "paths": {
+        "/api/v1/playlist": {
+            "get": {
+                "tags": [
+                    "playlist"
+                ],
+                "summary": "Get list of songs on the playlist",
+                "description": "Get list of songs on the playlist",
+                "operationId": "getPlaylist",
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/PlaylistSong"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/songs/{songId}": {
+            "get": {
+                "tags": [
+                    "songs"
+                ],
+                "summary": "Get info about a specific song",
+                "description": "Get info about a specific song",
+                "operationId": "getSong",
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "songId",
+                        "schema": {
+                            "type": "string"
+                        },
+                        "required": true,
+                        "description": "Numeric ID of the song to get"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "$ref": "#/components/schemas/Song"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/lyrics/{songId}": {
+            "get": {
+                "tags": [
+                    "lyrics"
+                ],
+                "summary": "Get lyrics for a specific song",
+                "description": "Get lyrics for a specific song",
+                "operationId": "getLyrics",
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "songId",
+                        "schema": {
+                            "type": "string"
+                        },
+                        "required": true,
+                        "description": "Numeric ID of the song to get lyrics for"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "$ref": "#/components/schemas/Lyrics"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "PlaylistSong": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "example": "hdees11mmk6g2078ewijsflly1r"
+                    },
+                    "title": {
+                        "type": "string",
+                        "example": "Starlight Scene"
+                    },
+                    "artist": {
+                        "type": "string",
+                        "example": "Dance Troop 5"
+                    },
+                    "genre": {
+                        "type": "string",
+                        "example": "Punk Rock"
+                    },
+                    "duration": {
+                        "type": "number",
+                        "example": 250
+                    }
+                }
+            },
+            "Song": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "example": "hdees11mmk6g2078ewijsflly1r"
+                    },
+                    "title": {
+                        "type": "string",
+                        "example": "Starlight Scene"
+                    },
+                    "artist": {
+                        "type": "string",
+                        "example": "Dance Troop 5"
+                    },
+                    "genre": {
+                        "type": "string",
+                        "example": "Punk Rock"
+                    },
+                    "duration": {
+                        "type": "number",
+                        "example": 250
+                    },
+                    "cover": {
+                        "type": "string",
+                        "example": "https://placehold.co/400"
+                    },
+                    "song": {
+                        "type": "string",
+                        "example": "https://placehold.co/400"
+                    }
+                }
+            },
+            "Lyrics": {
+                "type": "object",
+                "properties": {
+                    "lyrics": {
+                        "type": "string",
+                        "example": "Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+                    }
+                }
+            }
+        },
+        "requestBodies": {
+            "Pet": {
+                "description": "Pet object that needs to be added to the store",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "$ref": "#/components/schemas/Pet"
+                        }
+                    },
+                    "application/xml": {
+                        "schema": {
+                            "$ref": "#/components/schemas/Pet"
+                        }
+                    }
+                }
+            },
+            "UserArray": {
+                "description": "List of user object",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/components/schemas/User"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "securitySchemes": {
+            "petstore_auth": {
+                "type": "oauth2",
+                "flows": {
+                    "implicit": {
+                        "authorizationUrl": "https://petstore3.swagger.io/oauth/authorize",
+                        "scopes": {
+                            "write:pets": "modify pets in your account",
+                            "read:pets": "read your pets"
+                        }
+                    }
+                }
+            },
+            "api_key": {
+                "type": "apiKey",
+                "name": "api_key",
+                "in": "header"
+            }
+        }
+    }
+}

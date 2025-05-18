@@ -1,0 +1,72 @@
+[
+    {
+        "id": "cm3ixp4sy0thg0cmtdzukgg56",
+        "title": "Painted in Blue",
+        "artist": "Soul Canvas",
+        "genre": "Neo-Soul",
+        "duration": 194
+    },
+    {
+        "id": "soammx6oibpan244my4toqke",
+        "title": "Tidal Drift",
+        "artist": "Echoes of the Sea",
+        "genre": "Ambient",
+        "duration": 191
+    },
+    {
+        "id": "a6pkp78whsyqdvpb5dxn64ss",
+        "title": "Fading Shadows",
+        "artist": "The Emberlight",
+        "genre": "Alternative Rock",
+        "duration": 194
+    },
+    {
+        "id": "hdees11mmk6g078ewijlly1r",
+        "title": "Cosmic Drift",
+        "artist": "Solar Flare",
+        "genre": "Psychedelic Rock",
+        "duration": 240
+    },
+    {
+        "id": "sg9obf34n8qtnpq5t19w1b9a",
+        "title": "Urban Serenade",
+        "artist": "Midnight Groove",
+        "genre": "Jazz/Funk",
+        "duration": 162
+    },
+    {
+        "id": "u7wkgyiyiz7xuxcueoxzb5d5",
+        "title": "Whispers in the Wind",
+        "artist": "Rust & Ruin",
+        "genre": "Folk",
+        "duration": 230
+    },
+    {
+        "id": "kp4z671fsjcmuobji96z6p95",
+        "title": "Electric Fever",
+        "artist": "Neon Jungle",
+        "genre": "EDM",
+        "duration": 141
+    },
+    {
+        "id": "ycvdpo1n76ap0x2u67gy9gab",
+        "title": "Electric Wildflower",
+        "artist": "Velvet Ember",
+        "genre": "Indie Pop",
+        "duration": 179
+    },
+    {
+        "id": "jxjrthcu47rrpan548evirgu",
+        "title": "Golden Haze",
+        "artist": "Velvet Waves",
+        "genre": "Indie Pop",
+        "duration": 155
+    },
+    {
+        "id": "kjy3ny0k1jt9p83srhdyg7mb",
+        "title": "Shatter the Silence",
+        "artist": "Thunderclap Echo",
+        "genre": "Rock",
+        "duration": 224
+    }
+]
