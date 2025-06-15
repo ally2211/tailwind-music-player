@@ -1,6 +1,7 @@
 // tailwind.config.js
 export default {
   content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
+  darkMode: "class", // Enable dark mode support
   theme: {
     extend: {
       colors: {
@@ -8,6 +9,8 @@ export default {
         warmYellow: "#f8c460",    // Highlight color
         softBlack: "#1a1a1a",
         paleWhite: "#fdfdfd",
+        warmWhite: '#FAFAFA',
+        
       },
       fontFamily: {
         inter: ['Inter', 'sans-serif'],

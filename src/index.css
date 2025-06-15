@@ -2,6 +2,13 @@
 @tailwind components;
 @tailwind utilities;
 
+html {
+ @apply bg-white text-black; /* Light mode */
+}
+
 body {
   @apply font-inter;
 }
+.dark html {
+  @apply bg-darkBlue text-paleWhite;
+} 

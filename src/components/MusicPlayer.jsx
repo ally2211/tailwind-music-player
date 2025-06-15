@@ -9,7 +9,7 @@ const MusicPlayer = () => {
   const [volume, setVolume] = useState(50);
 
   return (
-    <div className="flex flex-col sm:flex-row gap-8 max-w-[900px] mx-auto p-8 bg-darkBlue text-paleWhite rounded-xl shadow-custom">
+    <div className="flex flex-col sm:flex-row gap-8 max-w-[900px] mx-auto p-8">
       {/* Player Column */}
       <div className="sm:w-1/2 ">
         <div className="w-full">
