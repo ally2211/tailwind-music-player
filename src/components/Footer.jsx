@@ -4,7 +4,7 @@ export default function Footer() {
     <div
       className="text-center p-8"
       style={{
-        width: '400px',
+        
         maxWidth: '100%', // Ensures it doesn't overflow on small screens
       }}
     >

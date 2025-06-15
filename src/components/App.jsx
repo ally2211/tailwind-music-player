@@ -6,7 +6,7 @@ function App() {
   return (
     <div className="p-8">
       <MusicPlayer />
-      {/* <Footer /> */}
+      <Footer />
     </div>
   );
 }
