@@ -1,8 +1,11 @@
-const SongTitle = ({ title, author }) => (
-  <h2 style={{ width: '400px' }}>
-    <div className="font-medium text-base leading-none tracking-normal font-inter">{title}</div>
-    <div className="text-sm text-gray-600">{author}</div>
-  </h2>
+const SongTitle = ({ title, author, className = "" }) => (
+  <div className={`space-y-1 ${className}`}>
+    <div className="font-inter font-bold text-2xl leading-none tracking-normal">
+      {title}
+    </div>
+    <div className="text-sm opacity-70 font-inter">{author}</div>
+  </div>
 );
 
 export default SongTitle;
+

@@ -9,12 +9,12 @@ const MusicPlayer = () => {
   const [volume, setVolume] = useState(50);
 
   return (
-    <div className="flex flex-col sm:flex-row gap-8 max-w-[900px] mx-auto p-8">
+    <div className="flex flex-col sm:flex-row gap-8 max-w-[900px] mx-auto p-8 bg-darkBlue text-paleWhite rounded-xl shadow-custom">
       {/* Player Column */}
       <div className="sm:w-1/2 ">
         <div className="w-full">
           <CoverArt />
-          <SongTitle title="My Song" author="Artist Name" />
+          <SongTitle title="My Song" author="Artist Name" className="mt-6 font-inter font-bold text-2xl leading-none tracking-normal" />
           <PlayControls />
           <VolumeControls volume={volume} setVolume={setVolume} />
         </div>
@@ -23,11 +23,26 @@ const MusicPlayer = () => {
       {/* Playlist Column */}
       <div className="sm:w-1/2 shrink-0">
         <div className="w-full">
-          <h2 className="text-xl font-bold mb-2">Playlist</h2>
-          <PlayListItem title="Painted in Blue" artist="Soul Canvas" length="3:45" />
-          <PlayListItem title="Title Drift" artist="Echos of Seas" length="4:12" />
-          <PlayListItem title="Fading Shadow" artist="The Emberight" length="2:58" />
-        </div>
+          <h2 className="text-xl font-inter font-medium text-warmYellow mb-2">Playlist</h2>
+          <PlayListItem
+            title="Painted in Blue"
+            artist="Soul Canvas"
+            length="3:45"
+            className="hover:bg-warmYellow hover:text-softBlack transition rounded-xl p-2"
+          />
+          <PlayListItem
+            title="Title Drift"
+            artist="Echos of Seas"
+            length="4:12"
+            className="hover:bg-warmYellow hover:text-softBlack transition rounded-xl p-2"
+          />
+          <PlayListItem
+            title="Fading Shadow"
+            artist="The Emberight"
+            length="2:58"
+            className="hover:bg-warmYellow hover:text-softBlack transition rounded-xl p-2"
+          />
+        </div>  
       </div>
     </div>
   );
