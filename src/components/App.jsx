@@ -1,11 +1,12 @@
-import Footer from "./Footer";
-import MusicPlayer from "./MusicPlayer";
+import React from 'react';
+import MusicPlayer from './MusicPlayer';
+import Footer from './Footer';
 
 function App() {
   return (
-    <div className="h-full flex flex-col justify-between p-8 min-h-screen">
+    <div className="p-8">
       <MusicPlayer />
-      <Footer />
+      {/* <Footer /> */}
     </div>
   );
 }

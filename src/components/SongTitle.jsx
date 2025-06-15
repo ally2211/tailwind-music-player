@@ -1,14 +1,8 @@
-import React from 'react';
-
-const SongTitle = ({ title, author }) => {
-  return (
-    <div className="mt-2 font-inter font-bold text-[24px] leading-none">
-      {title}
-      <div className="text-gray-600 font-medium text-sm">
-        by {author}
-      </div>
-    </div>
-  );
-};
+const SongTitle = ({ title, author }) => (
+  <div style={{ width: '400px' }}>
+    <div className="font-bold text-lg">{title}</div>
+    <div className="text-sm text-gray-600">{author}</div>
+  </div>
+);
 
 export default SongTitle;
