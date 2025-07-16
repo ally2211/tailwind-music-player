@@ -5,9 +5,10 @@ interface PlayListItemProps {
   loading?: boolean;
   className?: string;
   onClick?: () => void;
+  isSelected?: boolean;
 }
 
-const PlayListItem = ({ title, artist, length, loading = false, className = "", onClick }: PlayListItemProps) => {
+const PlayListItem = ({ title, artist, length, loading = false, className = "", onClick, isSelected = false }: PlayListItemProps) => {
   const handleClick = () => {
     console.log('PlayListItem clicked:', { title, artist, length });
     console.log('onClick function:', onClick);
@@ -31,7 +32,8 @@ const PlayListItem = ({ title, artist, length, loading = false, className = "", 
   return (
     <div
       className={`border border-warmYellow rounded-lg p-3 transition duration-200
-               hover:bg-warmYellow hover:text-darkBlue cursor-pointer ${className}`}
+               hover:bg-warmYellow hover:text-darkBlue cursor-pointer ${className}
+               ${isSelected ? 'bg-warmYellow text-darkBlue' : ''}`}
       onClick={handleClick}
     >
       <div className="flex justify-between items-center">

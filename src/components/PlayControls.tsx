@@ -2,11 +2,13 @@ import React, { useState, useRef } from 'react';
 
 interface PlayControlsProps {
   song?: string;
+  onPrevious?: () => void;
+  onNext?: () => void;
 }
 
 const iconClass = "w-6 h-6 text-warmWhite hover:text-yellow-400 transition";
 
-const PlayControls = ({ song }: PlayControlsProps) => {
+const PlayControls = ({ song, onPrevious, onNext }: PlayControlsProps) => {
   const [isPlaying, setIsPlaying] = useState(false);
   const audioRef = useRef<HTMLAudioElement>(null);
 
@@ -22,6 +24,18 @@ const PlayControls = ({ song }: PlayControlsProps) => {
     }
   };
 
+  const handlePrevious = () => {
+    if (onPrevious) {
+      onPrevious();
+    }
+  };
+
+  const handleNext = () => {
+    if (onNext) {
+      onNext();
+    }
+  };
+
   return (
     <>
       <audio ref={audioRef} src={song} onEnded={() => setIsPlaying(false)} />
@@ -34,7 +48,7 @@ const PlayControls = ({ song }: PlayControlsProps) => {
         </button>
 
         {/* Back */}
-        <button className="p-2">
+        <button className="p-2" onClick={handlePrevious}>
           <svg className={iconClass} viewBox="0 0 24 24" fill="currentColor">
             <path d="M11 19L2 12L11 5V19Z" />
             <path d="M22 19L13 12L22 5V19Z" />
@@ -63,7 +77,7 @@ const PlayControls = ({ song }: PlayControlsProps) => {
         </button>
 
         {/* Forward */}
-        <button className="p-2">
+        <button className="p-2" onClick={handleNext}>
           <svg className={iconClass} viewBox="0 0 24 24" fill="currentColor">
             <path d="M12 19L21 12L12 5V19Z" />
             <path d="M1 19L10 12L1 5V19Z" />

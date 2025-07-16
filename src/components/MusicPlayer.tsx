@@ -57,14 +57,34 @@ const MusicPlayer: React.FC = () => {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
       const songData: Song = await response.json();
-      console.log('Fetched song data:', songData);
-      console.log('Cover URL:', songData.cover);
+      // console.log('Fetched song data:', songData);
+      // console.log('Cover URL:', songData.cover);
       setCurrentSong(songData);
     } catch (error) {
       console.error('Failed to fetch song details:', error);
       // Fallback to the basic song data if API call fails
       setCurrentSong(song);
     }
+  };
+
+  const handlePrevious = async () => {
+    if (!currentSong || playlist.length === 0) return;
+
+    const currentIndex = playlist.findIndex(song => song.id === currentSong.id);
+    if (currentIndex <= 0) return; // Already at first song
+
+    const previousSong = playlist[currentIndex - 1];
+    await handleSongClick(previousSong);
+  };
+
+  const handleNext = async () => {
+    if (!currentSong || playlist.length === 0) return;
+
+    const currentIndex = playlist.findIndex(song => song.id === currentSong.id);
+    if (currentIndex >= playlist.length - 1) return; // Already at last song
+
+    const nextSong = playlist[currentIndex + 1];
+    await handleSongClick(nextSong);
   };
 
   if (isLoading) return <LoadingSkeleton />;
@@ -80,8 +100,8 @@ const MusicPlayer: React.FC = () => {
     );
   }
 
-  console.log('Current song:', currentSong);
-  console.log('Cover being passed to CoverArt:', currentSong?.cover || "");
+  // console.log('Current song:', currentSong);
+  // console.log('Cover being passed to CoverArt:', currentSong?.cover || "");
 
   return (
     <div className="flex flex-col sm:flex-row gap-8 max-w-[900px] mx-auto p-8">
@@ -99,6 +119,8 @@ const MusicPlayer: React.FC = () => {
           />
           <PlayControls
             song={currentSong?.song || ""}
+            onPrevious={handlePrevious}
+            onNext={handleNext}
           />
           <VolumeControls volume={volume} setVolume={setVolume} />
         </div>
@@ -116,6 +138,7 @@ const MusicPlayer: React.FC = () => {
               length={formatDuration(song.duration)}
               className="hover:bg-warmYellow hover:text-softBlack transition rounded-xl p-2"
               onClick={() => handleSongClick(song)}
+              isSelected={currentSong?.id === song.id}
             />
           ))}
         </div>
