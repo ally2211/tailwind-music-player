@@ -23,6 +23,7 @@ const MusicPlayer: React.FC = () => {
   const [playlist, setPlaylist] = useState<Song[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [currentSong, setCurrentSong] = useState<Song | null>(null);
+  const [isShuffleOn, setIsShuffleOn] = useState(false);
 
   // Helper function to format duration from seconds to MM:SS
   const formatDuration = (seconds: number): string => {
@@ -80,13 +81,32 @@ const MusicPlayer: React.FC = () => {
   const handleNext = async () => {
     if (!currentSong || playlist.length === 0) return;
 
-    const currentIndex = playlist.findIndex(song => song.id === currentSong.id);
-    if (currentIndex >= playlist.length - 1) return; // Already at last song
+    if (isShuffleOn) {
+      // Shuffle mode: play random song
+      const randomSong = playlist[Math.floor(Math.random() * playlist.length)];
+      await handleSongClick(randomSong);
+    } else {
+      // Normal mode: play next song
+      const currentIndex = playlist.findIndex(song => song.id === currentSong.id);
+      if (currentIndex >= playlist.length - 1) return; // Already at last song
 
-    const nextSong = playlist[currentIndex + 1];
-    await handleSongClick(nextSong);
+      const nextSong = playlist[currentIndex + 1];
+      await handleSongClick(nextSong);
+    }
   };
 
+  const handleShuffle = async () => {
+    if (!currentSong || playlist.length === 0) return;
+
+    // Toggle shuffle state
+    setIsShuffleOn(!isShuffleOn);
+
+    // If turning shuffle on, play a random song
+    if (!isShuffleOn) {
+      const randomSong = playlist[Math.floor(Math.random() * playlist.length)];
+      await handleSongClick(randomSong);
+    }
+  };
   if (isLoading) return <LoadingSkeleton />;
 
   if (error) {
@@ -121,6 +141,9 @@ const MusicPlayer: React.FC = () => {
             song={currentSong?.song || ""}
             onPrevious={handlePrevious}
             onNext={handleNext}
+            onShuffle={handleShuffle}
+            isShuffleOn={isShuffleOn}
+            volume={volume}
           />
           <VolumeControls volume={volume} setVolume={setVolume} />
         </div>

@@ -1,16 +1,27 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 
 interface PlayControlsProps {
   song?: string;
   onPrevious?: () => void;
   onNext?: () => void;
+  onShuffle?: () => void;
+  isShuffleOn?: boolean;
+  volume?: number;
 }
 
 const iconClass = "w-6 h-6 text-warmWhite hover:text-yellow-400 transition";
 
-const PlayControls = ({ song, onPrevious, onNext }: PlayControlsProps) => {
+const PlayControls = ({ song, onPrevious, onNext, onShuffle, isShuffleOn = false, volume = 50 }: PlayControlsProps) => {
   const [isPlaying, setIsPlaying] = useState(false);
+  const [playbackSpeed, setPlaybackSpeed] = useState(1);
   const audioRef = useRef<HTMLAudioElement>(null);
+
+  // Update audio volume when volume prop changes
+  useEffect(() => {
+    if (audioRef.current) {
+      audioRef.current.volume = volume / 100; // Convert percentage to 0-1 range
+    }
+  }, [volume]);
 
   const handlePlayPause = () => {
     if (!audioRef.current || !song) return;
@@ -22,6 +33,18 @@ const PlayControls = ({ song, onPrevious, onNext }: PlayControlsProps) => {
       audioRef.current.play();
       setIsPlaying(true);
     }
+  };
+
+  const handleSpeed = () => {
+    if (!audioRef.current) return;
+
+    const speeds = [0.5, 2];
+    const currentIndex = speeds.indexOf(playbackSpeed);
+    const nextIndex = (currentIndex + 1) % speeds.length;
+    const newSpeed = speeds[nextIndex];
+
+    setPlaybackSpeed(newSpeed);
+    audioRef.current.playbackRate = newSpeed;
   };
 
   const handlePrevious = () => {
@@ -36,12 +59,18 @@ const PlayControls = ({ song, onPrevious, onNext }: PlayControlsProps) => {
     }
   };
 
+  const handleShuffle = () => {
+    if (onShuffle) {
+      onShuffle();
+    }
+  };
+
   return (
     <>
       <audio ref={audioRef} src={song} onEnded={() => setIsPlaying(false)} />
       <div className="flex justify-between gap-4 mt-4" style={{ width: '400px' }}>
         {/* Speed */}
-        <button className="p-2">
+        <button className="p-2" onClick={handleSpeed}>
           <svg className={iconClass} viewBox="0 0 24 24" fill="currentColor">
             <path d="M4 4h2v16H4zM18 4l-8.5 8L18 20V4z" />
           </svg>
@@ -85,8 +114,8 @@ const PlayControls = ({ song, onPrevious, onNext }: PlayControlsProps) => {
         </button>
 
         {/* Shuffle */}
-        <button className="p-2">
-          <svg className={iconClass} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <button className="p-2" onClick={handleShuffle}>
+          <svg className={`${iconClass} ${isShuffleOn ? 'text-yellow-400' : 'text-warmWhite'}`} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
             <path d="M18 14L22 18L18 22" />
             <path d="M18 2L22 6L18 10" />
             <path d="M2 18H3.973C4.619 18.004 5.257 17.852 5.832 17.556C6.407 17.26 6.901 16.829 7.273 16.3L12.727 7.7C13.099 7.171 13.593 6.74 14.168 6.444C14.743 6.148 15.38 5.996 16.027 6H22" />
