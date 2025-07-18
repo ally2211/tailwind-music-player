@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import CoverArt from './CoverArt';
 import SongTitle from './SongTitle';
 import PlayControls from './PlayControls';
@@ -24,12 +24,50 @@ const MusicPlayer: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
   const [currentSong, setCurrentSong] = useState<Song | null>(null);
   const [isShuffleOn, setIsShuffleOn] = useState(false);
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [playbackSpeed, setPlaybackSpeed] = useState(1);
+  const audioRef = useRef<HTMLAudioElement>(null);
 
   // Helper function to format duration from seconds to MM:SS
   const formatDuration = (seconds: number): string => {
     const minutes = Math.floor(seconds / 60);
     const remainingSeconds = seconds % 60;
     return `${minutes}:${remainingSeconds.toString().padStart(2, '0')}`;
+  };
+
+  // Update audio source when currentSong changes
+  useEffect(() => {
+    if (audioRef.current && currentSong?.song) {
+      audioRef.current.src = currentSong.song;
+      audioRef.current.volume = volume / 100;
+      console.log('Audio source updated, volume set to:', volume / 100);
+    }
+  }, [currentSong?.song]);
+
+  // Update volume separately to avoid interrupting playback
+  useEffect(() => {
+    if (audioRef.current) {
+      audioRef.current.volume = volume / 100;
+      console.log('Volume updated to:', volume, 'Audio volume set to:', volume / 100);
+    }
+  }, [volume]);
+
+  // Update playback speed
+  useEffect(() => {
+    if (audioRef.current) {
+      audioRef.current.playbackRate = playbackSpeed;
+      console.log('Playback speed updated to:', playbackSpeed);
+    }
+  }, [playbackSpeed]);
+
+  const handlePlayPause = () => {
+    if (!audioRef.current || !currentSong?.song) return;
+
+    if (isPlaying) {
+      audioRef.current.pause();
+    } else {
+      audioRef.current.play();
+    }
   };
 
   useEffect(() => {
@@ -58,13 +96,23 @@ const MusicPlayer: React.FC = () => {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
       const songData: Song = await response.json();
-      // console.log('Fetched song data:', songData);
-      // console.log('Cover URL:', songData.cover);
       setCurrentSong(songData);
+      // Auto-play the new song
+      setTimeout(() => {
+        if (audioRef.current) {
+          audioRef.current.play();
+        }
+      }, 100); // Small delay to ensure audio source is set
     } catch (error) {
       console.error('Failed to fetch song details:', error);
       // Fallback to the basic song data if API call fails
       setCurrentSong(song);
+      // Auto-play the fallback song
+      setTimeout(() => {
+        if (audioRef.current) {
+          audioRef.current.play();
+        }
+      }, 100);
     }
   };
 
@@ -107,6 +155,7 @@ const MusicPlayer: React.FC = () => {
       await handleSongClick(randomSong);
     }
   };
+
   if (isLoading) return <LoadingSkeleton />;
 
   if (error) {
@@ -120,11 +169,26 @@ const MusicPlayer: React.FC = () => {
     );
   }
 
-  // console.log('Current song:', currentSong);
-  // console.log('Cover being passed to CoverArt:', currentSong?.cover || "");
-
   return (
     <div className="flex flex-col sm:flex-row gap-8 max-w-[900px] mx-auto p-8">
+      {/* Hidden audio element */}
+      <audio
+        ref={audioRef}
+        onPlay={() => setIsPlaying(true)}
+        onPause={() => setIsPlaying(false)}
+        onEnded={() => {
+          setIsPlaying(false);
+          // Auto-play next song when current song ends
+          if (isShuffleOn) {
+            const randomSong = playlist[Math.floor(Math.random() * playlist.length)];
+            handleSongClick(randomSong);
+          } else {
+            handleNext();
+          }
+        }}
+        preload="auto"
+      />
+
       {/* Player Column */}
       <div className="sm:w-1/2">
         <div className="w-full">
@@ -144,6 +208,9 @@ const MusicPlayer: React.FC = () => {
             onShuffle={handleShuffle}
             isShuffleOn={isShuffleOn}
             volume={volume}
+            isPlaying={isPlaying}
+            onPlayPause={handlePlayPause}
+            onSpeedChange={setPlaybackSpeed}
           />
           <VolumeControls volume={volume} setVolume={setVolume} />
         </div>
