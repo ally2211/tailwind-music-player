@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 
 interface PlayControlsProps {
   song?: string;
@@ -22,12 +22,9 @@ const PlayControls = ({
   onNext,
   onShuffle,
   isShuffleOn = false,
-  volume = 50,
   isPlaying = false,
   onPlayPause,
   onSpeedChange,
-  onPlayStateChange,
-  onEnded
 }: PlayControlsProps) => {
 
   const handlePlayPause = () => {
@@ -132,7 +129,7 @@ const PlayControls = ({
 
       {/* Shuffle */}
       <button className="p-2" onClick={handleShuffle}>
-        <svg className={`${iconClass} ${isShuffleOn ? 'text-yellow-400' : 'text-warmWhite'}`} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <svg className={`${iconClass} ${isShuffleOn ? 'text-yellow-400' : ''}`} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
           <path d="M18 14L22 18L18 22" />
           <path d="M18 2L22 6L18 10" />
           <path d="M2 18H3.973C4.619 18.004 5.257 17.852 5.832 17.556C6.407 17.26 6.901 16.829 7.273 16.3L12.727 7.7C13.099 7.171 13.593 6.74 14.168 6.444C14.743 6.148 15.38 5.996 16.027 6H22" />
