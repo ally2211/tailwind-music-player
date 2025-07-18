@@ -1,8 +1,7 @@
-import React from 'react';
 
 export default function LoadingSkeleton() {
   return (
-    <div className="animate-pulse space-y-4 p-4 max-w-md mx-auto">
+    <div data-testid="loading-skeleton" className="animate-pulse space-y-4 p-4 max-w-md mx-auto">
       {/* Simulated title */}
       <div className="h-6 bg-gray-300 dark:bg-gray-700 rounded w-3/4"></div>
 
