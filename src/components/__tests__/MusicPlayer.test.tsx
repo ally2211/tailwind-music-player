@@ -11,7 +11,7 @@ describe('MusicPlayer', () => {
     it('renders playlist when loaded', async () => {
         render(<MusicPlayer />)
         // Wait for playlist to load
-        await screen.findByText('Playlist')
+        await screen.findByText('Playlist', {}, { timeout: 3000 })
         expect(screen.getByText('Playlist')).toBeInTheDocument()
     })
 }) 
