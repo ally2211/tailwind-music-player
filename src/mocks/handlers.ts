@@ -3,57 +3,62 @@ import { http, HttpResponse } from 'msw'
 // Mock data for the music player
 const mockPlaylist = [
     {
-        id: 1,
+        id: "1",
         title: "Bohemian Rhapsody",
         artist: "Queen",
-        length: "5:55",
+        genre: "Rock",
+        duration: 355,
         cover: "https://example.com/bohemian-rhapsody.jpg",
-        songUrl: "https://example.com/bohemian-rhapsody.mp3"
+        song: "https://example.com/bohemian-rhapsody.mp3"
     },
     {
-        id: 2,
+        id: "2",
         title: "Hotel California",
         artist: "Eagles",
-        length: "6:30",
+        genre: "Rock",
+        duration: 390,
         cover: "https://example.com/hotel-california.jpg",
-        songUrl: "https://example.com/hotel-california.mp3"
+        song: "https://example.com/hotel-california.mp3"
     },
     {
-        id: 3,
+        id: "3",
         title: "Stairway to Heaven",
         artist: "Led Zeppelin",
-        length: "8:02",
+        genre: "Rock",
+        duration: 482,
         cover: "https://example.com/stairway-to-heaven.jpg",
-        songUrl: "https://example.com/stairway-to-heaven.mp3"
+        song: "https://example.com/stairway-to-heaven.mp3"
     },
     {
-        id: 4,
+        id: "4",
         title: "Imagine",
         artist: "John Lennon",
-        length: "3:03",
+        genre: "Pop",
+        duration: 183,
         cover: "https://example.com/imagine.jpg",
-        songUrl: "https://example.com/imagine.mp3"
+        song: "https://example.com/imagine.mp3"
     },
     {
-        id: 5,
+        id: "5",
         title: "Hey Jude",
         artist: "The Beatles",
-        length: "7:11",
+        genre: "Pop",
+        duration: 431,
         cover: "https://example.com/hey-jude.jpg",
-        songUrl: "https://example.com/hey-jude.mp3"
+        song: "https://example.com/hey-jude.mp3"
     }
 ]
 
 const mockSongDetails = {
-    id: 1,
+    id: "1",
     title: "Bohemian Rhapsody",
     artist: "Queen",
-    length: "5:55",
+    genre: "Rock",
+    duration: 355,
     cover: "https://example.com/bohemian-rhapsody.jpg",
-    songUrl: "https://example.com/bohemian-rhapsody.mp3",
+    song: "https://example.com/bohemian-rhapsody.mp3",
     album: "A Night at the Opera",
-    year: 1975,
-    genre: "Rock"
+    year: 1975
 }
 
 export const handlers = [
@@ -62,10 +67,15 @@ export const handlers = [
         return HttpResponse.json(mockPlaylist)
     }),
 
+    // Mock playlist endpoint with v1 path
+    http.get('/api/v1/playlist', () => {
+        return HttpResponse.json(mockPlaylist)
+    }),
+
     // Mock song details endpoint
     http.get('/api/songs/:id', ({ params }) => {
         const { id } = params
-        const song = mockPlaylist.find(song => song.id === Number(id))
+        const song = mockPlaylist.find(song => song.id === id)
 
         if (!song) {
             return new HttpResponse(null, { status: 404 })
