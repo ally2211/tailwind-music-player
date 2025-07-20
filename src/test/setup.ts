@@ -1,21 +1,20 @@
 import '@testing-library/jest-dom'
-import { vi } from 'vitest'
+import { vi, beforeAll, afterEach, afterAll } from 'vitest'
+import { setupServer } from 'msw/node'
+import { handlers } from '../mocks/handlers'
 
-// Mock fetch for API calls
-global.fetch = vi.fn(() =>
-    Promise.resolve({
-        ok: true,
-        json: () => Promise.resolve([
-            {
-                id: "test-song-1",
-                title: "Test Song",
-                artist: "Test Artist",
-                genre: "Test",
-                duration: 180
-            }
-        ])
-    } as Response)
-)
+// Setup MSW server for tests
+export const server = setupServer(...handlers)
+
+// Establish API mocking before all tests
+beforeAll(() => server.listen())
+
+// Reset any request handlers that we may add during the tests,
+// so they don't affect other tests
+afterEach(() => server.resetHandlers())
+
+// Clean up after the tests are finished
+afterAll(() => server.close())
 
 // Mock audio element
 Object.defineProperty(window, 'HTMLAudioElement', {
