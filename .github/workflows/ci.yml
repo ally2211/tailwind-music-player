@@ -1,0 +1,62 @@
+name: Test and Coverage
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main, develop ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20'
+        cache: 'npm'
+
+    - name: Install dependencies
+      run: npm ci
+
+    - name: Run linting
+      run: npm run lint
+
+    - name: Run tests with coverage
+      run: npm run coverage
+
+    - name: Upload coverage reports as artifacts
+      uses: actions/upload-artifact@v4
+      with:
+        name: coverage-report
+        path: coverage/
+        retention-days: 30
+
+    - name: Comment PR with coverage summary
+      if: github.event_name == 'pull_request'
+      uses: actions/github-script@v7
+      with:
+        script: |
+          const comment = `## 🧪 Test Results
+          
+          ✅ **All tests passed!**
+          
+          📊 **Coverage Report Available**
+          - Coverage reports have been generated and uploaded as artifacts
+          - You can download the full coverage report from the Actions tab
+          
+          ### Next Steps:
+          - Review the coverage report to identify areas for improvement
+          - Consider adding tests for uncovered code paths
+          - Coverage artifacts are available for 30 days`;
+          
+          github.rest.issues.createComment({
+            issue_number: context.issue.number,
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            body: comment
+          }); 
